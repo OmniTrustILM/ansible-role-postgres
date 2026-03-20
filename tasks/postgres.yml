@@ -107,52 +107,52 @@
   notify:
     Restart postgresql
 
-- name: Update pg_hba.conf. Grant user czertainly access to all databases on server.
+- name: Update pg_hba.conf. Grant user  access to all databases on server.
   community.postgresql.postgresql_pg_hba:
     dest: "/etc/postgresql/{{ postgres_version }}/main/pg_hba.conf"
     contype: host
-    users: "{{ postgres.username | default('czertainlyuser') }}"
+    users: "{{ postgres.username | default('dbuser') }}"
     source: all
     databases: all
     method: md5
     create: true
   tags:
     - postgres_pg_hba
-    - postgress_czertainly_remote_access
+    - postgress_remote_access
   notify:
     Restart postgresql
 
-- name: Create czertainlydb
+- name: Create db
   become: true
   become_user: postgres
   community.postgresql.postgresql_db:
-    name: "{{ postgres.database | default('czertainlydb') }}"
+    name: "{{ postgres.database | default('db') }}"
   tags:
-    - postgress_czertainly_db
+    - postgress_db
 
-- name: Create czertainlyuser
+- name: Create dbuser
   become: true
   become_user: postgres
   community.postgresql.postgresql_user:
-    db: "{{ postgres.database | default('czertainlydb') }}"
-    name: "{{ postgres.username | default('czertainlyuser') }}"
+    db: "{{ postgres.database | default('db') }}"
+    name: "{{ postgres.username | default('dbuser') }}"
     password: "{{ postgres.password | default('your-strong-password') }}"
   when: not ansible_check_mode # will fail in check mode if db isn't present
   tags:
-    - postgress_czertainly_user
+    - postgress_user
 
-- name: Grant ALL priv to czertainlydb to czertainlyuser
+- name: Grant ALL priv to db to dbuser
   become: true
   become_user: postgres
   community.postgresql.postgresql_privs:
     db: postgres
     privs: ALL
     type: database
-    obj: "{{ postgres.database | default('czertainlydb') }}"
-    role: "{{ postgres.username | default('czertainlyuser') }}"
+    obj: "{{ postgres.database | default('db') }}"
+    role: "{{ postgres.username | default('dbuser') }}"
   when: not ansible_check_mode # will fail in check mode if db isn't present
   tags:
-    - postgress_czertainly_grant_all
+    - postgress_grant_all
 
 - name: Configure max_connections
   ansible.builtin.template:
