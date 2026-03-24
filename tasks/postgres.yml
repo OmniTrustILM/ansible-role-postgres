@@ -134,7 +134,7 @@
   become: true
   become_user: postgres
   community.postgresql.postgresql_user:
-    db: "{{ postgres.database | default('db') }}"
+    login_db: "{{ postgres.database | default('db') }}"
     name: "{{ postgres.username | default('dbuser') }}"
     password: "{{ postgres.password | default('your-strong-password') }}"
   when: not ansible_check_mode # will fail in check mode if db isn't present
@@ -145,7 +145,7 @@
   become: true
   become_user: postgres
   community.postgresql.postgresql_privs:
-    db: postgres
+    login_db: postgres
     privs: ALL
     type: database
     obj: "{{ postgres.database | default('db') }}"
