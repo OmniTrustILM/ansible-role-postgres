@@ -4,3 +4,5 @@ postgres_internal:
   buster: 11
   bullseye: 13
   bookworm: 15
+  trixie: 17
+  forky: 18
