@@ -1,7 +1,7 @@
 galaxy_info:
-  author: Jakub Moravek
-  description: CZERTAINLY virtual appliance based on Debian, RKE2 & Postgres
-  company: CZERTAINLY, s.r.o.
+  author: Jakub Moravek, Jan Tomasek
+  description: ILM virtual appliance based on Debian, RKE2 & Postgres
+  company: OmniTrust
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
